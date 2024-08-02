@@ -33,3 +33,30 @@ const shadowHeader = () => {
     this.scrollY >= 50 ? header.classList.add('shadow-header') : header.classList.remove('shadow-header');
 }
 window.addEventListener('scroll', shadowHeader);
+
+/* EMAIL JS */
+const contactForm = document.getElementById('contact-form');
+const contactMessage = document.getElementById('contact-message');
+
+const sendEmail = (e) => {
+    e.preventDefault();
+
+    // serviceID - templateID - #form - publicKey
+    emailjs.sendForm('service_hucjskx', 'template_f7kch6a', '#contact-form', 'r5vNQDvaxivyrR-Zd').then(() => {
+        // Message sent confirmation.
+        contactMessage.textContent = 'Message sent successfully! ✅';
+
+        // Remove confirmation message after 5 seconds.
+        setTimeout(() => {
+            contactMessage.textContent = '';
+        }, 5000);
+
+        // Clear input fields.
+        contactForm.reset();
+    }, () => {
+        // Show error message.
+        contactMessage.textContent = 'Message not sent - service error! ❌';
+    });
+}
+
+contactForm.addEventListener('submit', sendEmail);
